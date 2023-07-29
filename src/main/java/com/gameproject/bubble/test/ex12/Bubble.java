@@ -1,4 +1,4 @@
-package com.gameproject.bubble.test.ex11;
+package com.gameproject.bubble.test.ex12;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -7,10 +7,11 @@ import javax.swing.*;
 
 @Getter
 @Setter
-public class Bubble extends JLabel implements Moveable{
+public class Bubble extends JLabel implements Moveable {
 
-
+    // 의존성 컴포지션
     private Player player;      //컴포지션
+    private BackgroundBubbleService backgroundBubbleService;
 
     // 위치 상태
     private int x;
@@ -40,6 +41,7 @@ public class Bubble extends JLabel implements Moveable{
         bubble =  new ImageIcon("image/bubble.png");
         bubbleHit =  new ImageIcon("image/bubbled.png");
         bubbleBomb =  new ImageIcon("image/bomb.png");
+        backgroundBubbleService = new BackgroundBubbleService(this);
     }
 
     private void initSetting(){
@@ -74,6 +76,10 @@ public class Bubble extends JLabel implements Moveable{
             y--;
             setLocation(x,y);
 
+            if (backgroundBubbleService.upWall()){
+                break;
+            }
+
             try {
                 Thread.sleep(1);
             } catch (InterruptedException e) {
@@ -88,6 +94,10 @@ public class Bubble extends JLabel implements Moveable{
         for (int i = 0; i < 400; i++) {
             x--;
             setLocation(x,y);
+
+            if (backgroundBubbleService.leftWall()){
+                break;
+            }
 
             try {
                 Thread.sleep(1);
@@ -104,7 +114,9 @@ public class Bubble extends JLabel implements Moveable{
         for (int i = 0; i < 400; i++) {
             x++;
             setLocation(x,y);
-
+            if (backgroundBubbleService.rightWall()){
+                break;
+            }
             try {
                 Thread.sleep(1);
             } catch (InterruptedException e) {
