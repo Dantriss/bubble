@@ -1,9 +1,11 @@
-package com.gameproject.bubble.test.ex03;
+package com.gameproject.bubble.test.ex04;
 
-import com.sun.org.apache.bcel.internal.generic.FALOAD;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.swing.*;
-
+@Getter
+@Setter
 public class Player extends JLabel implements Moveable {
 
     // 위치 상태
@@ -61,16 +63,42 @@ public class Player extends JLabel implements Moveable {
     // 이벤트 핸들러
     @Override
     public void left() {
+        System.out.println("left thread 생성");
 
-        setIcon(playerL);
-        x = x - 10;
-        setLocation(x,y);
+        left = true;
+
+        new Thread(() ->{
+            while (left){
+                setIcon(playerL);
+                x = x - 10;
+                setLocation(x,y);
+                try {
+                    Thread.sleep(10);   //0.01초
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }).start();
     }
 
     @Override
     public void right() {
-        setIcon(playerR);
-        x = x +10;
-        setLocation(x,y);
+        right = true;
+        new Thread(()->{
+            while (right){
+                setIcon(playerR);
+                x=x+10;
+                setLocation(x,y);
+                try {
+                    Thread.sleep(10);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+
+
+        }).start();
+
+
     }
 }
