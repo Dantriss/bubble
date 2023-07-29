@@ -1,5 +1,7 @@
 package com.gameproject.bubble.test.ex05;
 
+import com.sun.javafx.PlatformUtil;
+
 import javax.swing.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -54,11 +56,14 @@ public class BubbleFrame extends JFrame {
 
                     break;
                     case KeyEvent.VK_DOWN:
-                        player.down();
+
                     break;
                     case KeyEvent.VK_UP:
-                        player.up();
+                        if (!player.isUp()&&!player.isDown()){
+                            player.up();
+                        }
                     break;
+
                 }
 
             }
@@ -74,6 +79,7 @@ public class BubbleFrame extends JFrame {
                     case KeyEvent.VK_LEFT:
                         player.setLeft(false);
                         break;
+
                 }
             }
 

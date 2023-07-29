@@ -19,7 +19,8 @@ public class Player extends JLabel implements Moveable {
     boolean down;
 
     //플레이어 속도 상태
-    private final int SPEED = 3;
+    private final int SPEED = 4;
+    private final int JUMPSPEED = 2;
 
     private ImageIcon playerR, playerL;
 
@@ -57,12 +58,37 @@ public class Player extends JLabel implements Moveable {
     public void up() {
         System.out.println("up");
         up = true;
-
+        new Thread(()->{
+            for (int i = 0; i < 130/JUMPSPEED; i++) {
+                y = y-JUMPSPEED;
+                setLocation(x,y);
+                try {
+                    Thread.sleep(10);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            up = false;
+            down();
+        }).start();
 
     }
 
     @Override
     public void down() {
+        System.out.println("down");
+        new Thread(()->{
+            for (int i = 0; i < 130/JUMPSPEED; i++) {
+                y = y+JUMPSPEED;
+                setLocation(x,y);
+                try {
+                    Thread.sleep(10);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            down = false;
+        }).start();
 
     }
 
